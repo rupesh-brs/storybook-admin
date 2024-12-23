@@ -1,3 +1,4 @@
+import { name } from "ejs";
 import User from "../models/adminModel.js";
 import Story from "../models/storyModel.js";
 import bcrypt from "bcryptjs";
@@ -51,9 +52,15 @@ const userList = async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const limit = 10; // Number of records per page
     const skip = (page - 1) * limit;
+    const searchQuery = req.query.search || '';
 
     try {
-        const users = await User.find({ role: { $ne: 'admin' } })
+        const query = {
+            role: { $ne: 'admin' },
+            name: { $regex: searchQuery, $options: 'i' }
+        };
+
+        const users = await User.find(query)
             .skip(skip)
             .limit(limit);
 
@@ -71,13 +78,14 @@ const userList = async (req, res, next) => {
             });
         }
 
-        const totalUsers = await User.countDocuments({ role: { $ne: 'admin' } });
+        const totalUsers = await User.countDocuments(query);
         const totalPages = Math.ceil(totalUsers / limit);
 
         res.render("users", { 
             users: usersWithStoryCount,
             currentPage: page,
-            totalPages: totalPages
+            totalPages: totalPages,
+            search: searchQuery
         });
     } catch (error) {
         console.log("Error", error);
@@ -89,9 +97,14 @@ const storiesList = async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const limit = 10; // Number of records per page
     const skip = (page - 1) * limit;
+    const searchQuery = req.query.search || '';
 
     try {
-        const stories = await Story.find()
+        const query = {
+            title: { $regex: searchQuery, $options: 'i' }
+        };
+
+        const stories = await Story.find(query)
             .skip(skip)
             .limit(limit);
 
@@ -101,7 +114,9 @@ const storiesList = async (req, res, next) => {
         res.render("stories", { 
             stories,
             currentPage: page,
-            totalPages: totalPages
+            totalPages: totalPages,
+            search: searchQuery
+
         });
     } catch (error) {
         console.log("Error", error);
