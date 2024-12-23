@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stories</title>
+    <!-- Link to the compiled Tailwind CSS -->
+    <link href="/css/tailwind.css" rel="stylesheet" />
+    <style>
+      /* Adjustments for layout */
+      body {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+      }
+
+      .content-wrapper {
+        display: flex;
+        flex-grow: 1;
+        margin-top: 0px; /* Add margin to prevent overlap with nav */
+      }
+
+      .sidebar {
+        width: 180px;
+        flex-shrink: 0;
+      }
+
+      .main-content {
+        flex-grow: 1;
+        margin-left: 70px; /* Matches the sidebar width */
+        padding: 20px;
+        background-color: #f9fafb; /* Light background for contrast */
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('nav') %>
+    <div class="content-wrapper">
+      <div class="sidebar">
+        <%- include('sidebar') %>
+      </div>
+      <div class="main-content">
+        <div class="container">
+          <h1 class="text-4xl font-extrabold text-gray-800 mb-6">Stories List</h1>
+
+          <!-- Table Container -->
+          <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+            <table class="min-w-full table-auto border-collapse border border-gray-300">
+              <thead class="bg-gray-100 text-gray-700">
+                <tr>
+                  <th class="border px-4 py-3 text-sm font-medium text-center">S.No</th>
+                  <th class="border px-4 py-3 text-sm font-medium text-left">Title</th>
+                  <th class="border px-4 py-3 text-sm font-medium text-left">Author</th>
+                  <th class="border px-4 py-3 text-sm font-medium text-center">Likes</th>
+                  <th class="border px-4 py-3 text-sm font-medium text-center">Comments</th>
+                  <th class="border px-4 py-3 text-sm font-medium text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm text-gray-600">
+                <!-- Loop through each story and display them in the table -->
+                <% stories.forEach((story, index) => { %>
+                <tr class="hover:bg-gray-50 transition-all duration-300">
+                  <td class="border px-4 py-3 text-center"><%= index + 1 %></td>
+                  <td class="border px-4 py-3"><%= story.title %></td>
+                  <td class="border px-4 py-3"><%= story.author %></td>
+                  <td class="border px-4 py-3 text-center"><%= story.likes %></td>
+                  <td class="border px-4 py-3 text-center">
+                    <button
+                      class="text-blue-500 hover:underline"
+                      onclick="toggleComments('<%= story._id.toString() %>')">
+                      <%= story.comments.length %> Comments
+                    </button>
+                    <div id="comments-<%= story._id %>" class="hidden mt-2">
+                      <div class="border space-y-2">
+                        <% story.comments.forEach((comment, index) => { %>
+                          <div class="p-2 ">
+                            <p><%= comment %></p>
+                          </div>
+                        <% }); %>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="border px-4 py-3 text-center">
+                    <form
+                      action="/api/admin/delete_story/<%= story._id %>"
+                      method="POST"
+                      onsubmit="return confirm('Are you sure you want to delete this story?')">
+                      <button
+                        type="submit"
+                        class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">
+                        Delete
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleComments(storyId) {
+        const commentsDiv = document.getElementById(`comments-${storyId}`);
+        commentsDiv.classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <!-- Link to the compiled Tailwind CSS -->
+    <link href="/css/tailwind.css" rel="stylesheet" />
+    <style>
+      /* Ensure sidebar doesn't overlap */
+      #layoutSidenav_content {
+        margin-left: 250px; /* Adjust this value to match the width of your sidebar */
+      }
+      /* Sidebar styling (just an example) */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        height: 100%;
+        background-color: #1a202c;
+        padding-top: 2rem;
+        /* Optional: Add a shadow for better separation */
+        box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body class="font-sans bg-gray-100">
+    <%- include('nav')%>
+    <%- include('sidebar')%>
+    <div id="layoutSidenav_content">
+      <main>
+        <div class="container mx-auto px-4 py-6">
+          <h1 class="text-3xl font-bold mt-4">Dashboard</h1>
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- User Count Card -->
+            <div class="bg-gray-600 text-white p-4 rounded-lg shadow-md">
+              <h2 class="text-xl" style="color: #000;">Users</h2>
+              <span class="text-3xl float-right" style="color: #000;"><%= userCount %></span>
+            </div>
+            <!-- Story Count Card -->
+            <div class="bg-gray-600 text-white p-4 rounded-lg shadow-md">
+              <h2 class="text-xl" style="color: #000;">Stories</h2>
+              <span class="text-3xl float-right" style="color: #000;"><%= storyCount %></span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
