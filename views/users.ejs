@@ -6,6 +6,8 @@
     <title>Users</title>
     <!-- Link to the compiled Tailwind CSS -->
     <link href="/css/tailwind.css" rel="stylesheet" />
+    <!-- Link to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
       /* Adjustments for layout */
       body {
@@ -92,7 +94,7 @@
                     <!-- Placeholder for number of stories -->
                   </td>
                   <td class="border px-4 py-3 text-center">
-                    <!-- Action: Delete button -->
+                    <!-- Action: Delete button with Font Awesome icon -->
                     <form
                       action="/api/admin/delete_user/<%= user._id %>"
                       method="POST"
@@ -100,9 +102,10 @@
                     >
                       <button
                         type="submit"
-                        class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+                        class=" p-2 rounded-ful focus:outline-none focus:ring-2 focus:ring-red-400"
                       >
-                        Delete
+                        <!-- Font Awesome Trash Icon -->
+                        <i class="fas fa-trash-alt"></i>
                       </button>
                     </form>
                   </td>

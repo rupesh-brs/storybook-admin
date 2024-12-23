@@ -98,20 +98,42 @@ const adminLogin = async (req, res, next) => {
     };
 
     // Delete story controller
-    const deleteStory = async (req, res) => {
-        const story_id = req.params.id;
-        try {
-        const story = await Story.deleteOne({ _id: story_id });
-        if (!story) {
-            return res.status(404).json({ message: "Story not found" });
-        }
-        res.redirect("/api/admin/stories");
-        } catch (error) {
-        console.log("Error", error);
-        return res.status(500).json({ message: "Error deleting story" });
-        }
-    };
+    // const deleteStory = async (req, res) => {
+    //     const story_id = req.params.id;
+    //     try {
+    //     const story = await Story.deleteOne({ _id: story_id });
+    //     if (!story) {
+    //         return res.status(404).json({ message: "Story not found" });
+    //     }
+    //     res.redirect("/api/admin/stories");
+    //     } catch (error) {
+    //     console.log("Error", error);
+    //     return res.status(500).json({ message: "Error deleting story" });
+    //     }
+    // };
 
+    // Admin: Delete Story Controller
+const deleteStory = async (req, res) => {
+    const storyId = req.params.id;  // Get the story ID from the URL params
+    
+    try {
+      // Find and delete the story by its ID
+      const story = await Story.findOneAndDelete({ _id: storyId });
+  
+      // If no story was found or deleted
+      if (!story) {
+        return res.status(404).json({ message: "Story not found" });
+      }
+  
+      // Redirect to the stories list page
+      res.redirect("/api/admin/stories");
+  
+    } catch (error) {
+      console.log("Error deleting story:", error);
+      return res.status(500).json({ message: "Error deleting story", error });
+    }
+  };
+  
     export {
         adminLogin,
         adminDashboard,

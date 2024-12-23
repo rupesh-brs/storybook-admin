@@ -39,6 +39,6 @@ router.get("/dashboard", isAuthenticated, adminDashboard);
 router.get("/users", isAuthenticated, userList);
 router.post("/delete_user/:user_id", isAuthenticated, deleteUser);
 router.get("/stories", isAuthenticated, storiesList);
-router.post("/delete_story/:story_id", isAuthenticated, deleteStory);
+router.post("/delete_story/:id", isAuthenticated, deleteStory);
 
 export default router;

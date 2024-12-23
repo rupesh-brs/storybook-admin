@@ -28,6 +28,10 @@ app.set("views", "./views"); // Corrected path
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/admin", adminRoute);
+// Redirect root route to /api/admin/login
+app.get("/", (req, res) => {
+  res.redirect("/api/admin/login");
+});
 
 app.use(notFound);
 app.use(errorHandler);
