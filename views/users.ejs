@@ -55,24 +55,12 @@
             <table class="min-w-full table-auto border-collapse border border-gray-300">
               <thead class="bg-gray-100 text-gray-700">
                 <tr>
-                  <th class="border px-4 py-3 text-sm font-medium text-center">
-                    S.No
-                  </th>
-                  <th class="border px-4 py-3 text-sm font-medium text-left">
-                    Username
-                  </th>
-                  <th class="border px-4 py-3 text-sm font-medium text-center">
-                    Email Verification
-                  </th>
-                  <th class="border px-4 py-3 text-sm font-medium text-center">
-                    Role
-                  </th>
-                  <th class="border px-4 py-3 text-sm font-medium text-center">
-                    Published Stories
-                  </th>
-                  <th class="border px-4 py-3 text-sm font-medium text-center">
-                    Action
-                  </th>
+                  <th class="border px-4 py-3 text-sm font-medium text-center">S.No</th>
+                  <th class="border px-4 py-3 text-sm font-medium text-left">Name</th>
+                  <th class="border px-4 py-3 text-sm font-medium text-center">Verified</th>
+                  <th class="border px-4 py-3 text-sm font-medium text-center">Role</th>
+                  <th class="border px-4 py-3 text-sm font-medium text-center">Stories</th>
+                  <th class="border px-4 py-3 text-sm font-medium text-center">Action</th>
                 </tr>
               </thead>
               <tbody class="text-sm text-gray-600">
@@ -87,11 +75,10 @@
                     <%= user.verified ? 'Verified' : 'Not Verified' %>
                   </td>
                   <td class="border px-4 py-3 text-center">
-                    <%= user.isAuthor ? 'Author' : 'Reader' %>
+                    <%= user.role %>
                   </td>
                   <td class="border px-4 py-3 text-center">
-                    <%= user.isAuthor ? user.storyCount : '-' %>
-                    <!-- Placeholder for number of stories -->
+                    <%= user.role === 'author' ? user.storyCount : '-' %>
                   </td>
                   <td class="border px-4 py-3 text-center">
                     <!-- Action: Delete button with Font Awesome icon -->
@@ -102,9 +89,8 @@
                     >
                       <button
                         type="submit"
-                        class=" p-2 rounded-ful focus:outline-none focus:ring-2 focus:ring-red-400"
+                        class=" px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
                       >
-                        <!-- Font Awesome Trash Icon -->
                         <i class="fas fa-trash-alt"></i>
                       </button>
                     </form>
@@ -113,6 +99,19 @@
                 <% }); %>
               </tbody>
             </table>
+          </div>
+
+          <!-- Pagination Controls -->
+          <div class="flex justify-center mt-4">
+            <% if (currentPage > 1) { %>
+              <a href="?page=<%= currentPage - 1 %>" class="px-4 py-2  text-black rounded-md hover:bg-gray-400">Previous</a>
+            <% } %>
+            <% for (let i = 1; i <= totalPages; i++) { %>
+              <a href="?page=<%= i %>" class="px-4 py-2 mx-1 <%= currentPage === i ? 'text-black' : 'bg-gray-300 text-gray-700' %> rounded-md hover:bg-gray-400"><%= i %></a>
+            <% } %>
+            <% if (currentPage < totalPages) { %>
+              <a href="?page=<%= currentPage + 1 %>" class="px-4 py-2  text-black rounded-md hover:bg-gray-400">Next</a>
+            <% } %>
           </div>
         </div>
       </div>

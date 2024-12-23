@@ -30,6 +30,10 @@ const storySchema = new mongoose.Schema({
   ],
 });
 
+// Static method to count stories by author
+storySchema.statics.countStoriesByAuthor = function(authorId) {
+  return this.countDocuments({ author: authorId });
+};
 const Story = mongoose.model('Story', storySchema);
 
 export default Story;
